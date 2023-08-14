@@ -1,0 +1,78 @@
+﻿@model FIT5032_Assignment_2.Models.Appointments
+
+@{
+    ViewBag.Title = "Rating";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Rating</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <head>
+        <!-- 头部内容 -->
+    </head>
+
+    <body>
+        <h4 align="center">Enter Rating</h4>
+        <div class="container" align="center">
+            <form id="ratingForm">
+                <input type="text" id="patientID" placeholder="Patient ID">
+                <input type="text" id="doctorID" placeholder="Doctor ID">
+                <input type="number" id="aggregateRating" placeholder="Aggregate Rating">
+                <button type="button" id="submitRatingButton">Submit Rating</button>
+            </form>
+
+        </div>
+
+    </body>
+}
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+
+    <script>
+    document.getElementById("submitRatingButton").addEventListener("click", function () {
+        var patientID = document.getElementById("patientID").value;
+        var doctorID = document.getElementById("doctorID").value;
+        var aggregateRating = document.getElementById("aggregateRating").value;
+
+        console.log("Submitting form...");
+        console.log("patientID:", patientID);
+        console.log("doctorID:", doctorID);
+        console.log("aggregateRating:", aggregateRating);
+
+        // 使用 AJAX 或其他方式将数据一起发送到后端更新
+
+        $.ajax({
+            url: "/Appointments/CreateRating",
+            type: "POST",
+            data: {
+                patientID: patientID,
+                doctorID: doctorID,
+                aggregateRating: aggregateRating
+            },
+            success: function (data) {
+                alert("Rating updated successfully!");
+
+                // 在成功提交后跳转到评分页面
+                window.location.href = '@Url.Action("Rating", "Appointments")';
+            },
+            error: function () {
+                alert("Failed to update rating.");
+            }
+        });
+    });
+    </script>
+
+
+}

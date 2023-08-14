@@ -1,0 +1,90 @@
+CREATE TABLE [dbo].[Doctors] (
+    [DoctorId]       INT (128) NOT NULL,
+    [FirstName]      NVARCHAR (50)  NOT NULL,
+    [LastName]       NVARCHAR (50)  NOT NULL,
+    [Specialization] NVARCHAR (100) NOT NULL,
+    [Email]          NVARCHAR (100) NOT NULL,
+    [HospitalName]   NVARCHAR (100) NOT NULL,
+    PRIMARY KEY CLUSTERED ([DoctorId] ASC)
+);
+
+
+CREATE TABLE [dbo].[Patients] (
+    [PatientId] NVARCHAR (128) NOT NULL,
+    [FirstName] VARCHAR (50)   NOT NULL,
+    [LastName]  VARCHAR (50)   NOT NULL,
+    [BirthDate] DATE           NOT NULL,
+    [Gender]    VARCHAR (50)   NOT NULL,
+    CONSTRAINT [PK_Patients] PRIMARY KEY CLUSTERED ([PatientId] ASC)
+);
+
+--------------------------------------------------------------------
+CREATE TABLE [dbo].[Doctors] (
+    [UserId]         NVARCHAR (128) NOT NULL,
+    [DoctorId]       INT NOT NULL,
+    [FirstName]      NVARCHAR (50)  NOT NULL,
+    [LastName]       NVARCHAR (50)  NOT NULL,
+    [Email]          NVARCHAR (100) NOT NULL,
+    PRIMARY KEY CLUSTERED ([DoctorId] ASC)
+);
+
+
+CREATE TABLE [dbo].[Patients] (
+    [UserId]         NVARCHAR (128) NOT NULL,
+    [PatientId] INT NOT NULL,
+    [FirstName] VARCHAR (50)   NOT NULL,
+    [LastName]  VARCHAR (50)   NOT NULL,
+    [Email]          NVARCHAR (100) NOT NULL,
+    CONSTRAINT [PK_Patients] PRIMARY KEY CLUSTERED ([PatientId] ASC)
+);
+
+CREATE TABLE Appointments (
+    AppointmentId INT PRIMARY KEY,
+    PatientID INT NOT NULL,
+    DoctorID INT NOT NULL,
+    AppointmentDate DATETIME NOT NULL,    
+    AggregateRating  INT, -- 新增字段用于聚合评分分数
+);
+
+--------------------------------------------------------------------
+CREATE TABLE [dbo].[Doctors] (
+    [DoctorId]       INT NOT NULL,
+    [FirstName]      NVARCHAR (50)  NOT NULL,
+    [LastName]       NVARCHAR (50)  NOT NULL,
+    [Email]          NVARCHAR (100) NOT NULL,
+    PRIMARY KEY CLUSTERED ([DoctorId] ASC)
+);
+
+
+CREATE TABLE [dbo].[Patients] (
+    [PatientId] INT NOT NULL,
+    [FirstName] VARCHAR (50)   NOT NULL,
+    [LastName]  VARCHAR (50)   NOT NULL,
+    [Email]          NVARCHAR (100) NOT NULL,
+    CONSTRAINT [PK_Patients] PRIMARY KEY CLUSTERED ([PatientId] ASC)
+);
+
+CREATE TABLE [dbo].[Appointments] (
+    [AppointmentId]   INT      NOT NULL,
+    [PatientID]       INT      NOT NULL,
+    [DoctorID]        INT      NOT NULL,
+    [AppointmentDate] DATETIME NOT NULL,
+    [AggregateRating] INT      NULL,
+    PRIMARY KEY CLUSTERED ([AppointmentId] ASC),
+    FOREIGN KEY ([PatientID]) REFERENCES [dbo].[Patients] ([PatientId]),
+    FOREIGN KEY ([DoctorID]) REFERENCES [dbo].[Doctors] ([DoctorId])
+);
+
+--------------------------------------------------------------------
+
+CREATE TABLE [dbo].[Appointments] (
+    [AppointmentId]   INT      IDENTITY(1,1) PRIMARY KEY,
+    [PatientID]       INT      NOT NULL,
+    [DoctorID]        INT      NOT NULL,
+    [AppointmentDate] DATETIME NOT NULL,
+    [AggregateRating] INT      NULL,
+    FOREIGN KEY ([PatientID]) REFERENCES [dbo].[Patients] ([PatientId]),
+    FOREIGN KEY ([DoctorID]) REFERENCES [dbo].[Doctors] ([DoctorId])
+);
+
+
